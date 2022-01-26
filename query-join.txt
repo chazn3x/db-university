@@ -44,7 +44,7 @@ JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
 ORDER BY `degrees`.`name`;
 
 6)
-SELECT `teachers`.`surname`,
+SELECT DISTINCT `teachers`.`surname`,
 `teachers`.`name`,
 `departments`.`name` AS 'dipartimento'
 FROM `teachers`
