@@ -1,0 +1,68 @@
+1) 
+SELECT * 
+FROM `students` 
+JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id` 
+WHERE `degrees`.`name` = 'Corso di Laurea in Economia';
+
+2) 
+SELECT * 
+FROM `degrees` 
+JOIN `departments` ON `degrees`.`department_id` = `departments`.`id` 
+WHERE `departments`.`name` = 'Dipartimento di Neuroscienze';
+
+3) 
+SELECT * 
+FROM `courses` 
+JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id` 
+JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id` 
+WHERE `teachers`.`name` = 'Fulvio' 
+AND `teachers`.`surname` = 'Amato';
+
+4)
+SELECT
+`students`.`surname`,
+`students`.`name`,
+`students`.`registration_number`,
+`degrees`.`name` AS 'corso_di_laurea',
+`departments`.`name` AS 'dipartimento'
+FROM `students`
+JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`
+JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
+ORDER BY `students`.`surname`;
+
+5)
+SELECT
+`degrees`.`name` AS 'corso_di_laurea',
+`courses`.`name` AS 'nome_corso',
+`courses`.`description` AS 'descrizione_corso',
+`teachers`.`surname` AS 'cognome_insegnante',
+`teachers`.`name` AS 'nome_insegnante'
+FROM `degrees`
+JOIN `courses` ON `degrees`.`id` = `courses`.`degree_id`
+JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id`
+JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+ORDER BY `degrees`.`name`;
+
+6)
+SELECT `teachers`.`surname`,
+`teachers`.`name`,
+`departments`.`name` AS 'dipartimento'
+FROM `teachers`
+JOIN `course_teacher` ON `teachers`.`id` = `course_teacher`.`teacher_id`
+JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id`
+JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
+WHERE `departments`.`name` = 'Dipartimento di Matematica'
+ORDER BY `teachers`.`surname`;
+
+7)
+SELECT
+`students`.`surname`,
+`students`.`name`,
+`courses`.`name` AS 'nome_corso',
+COUNT(`courses`.`id`) AS 'tentativi'
+FROM `exams`
+JOIN `courses` ON `exams`.`course_id` = `courses`.`id`
+JOIN `exam_student` ON `exams`.`id` = `exam_student`.`exam_id`
+JOIN `students` ON `exam_student`.`student_id` = `students`.`id`
+GROUP BY `students`.`id`, `courses`.`id`;
